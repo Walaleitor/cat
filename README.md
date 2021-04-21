@@ -1,16 +1,5 @@
-# tic_tac_toe
+# CAT :cat2:
 
-A new Flutter project.
+Tic-tac-toe Game - only for fun
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Alt Text](https://media1.tenor.com/images/c079ac60f08cb821a1f1c1f4dbe61b37/tenor.gif?itemid=14926882)
