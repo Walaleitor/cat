@@ -6,3 +6,10 @@ class GameEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SquareSelectedEvent extends GameEvent {
+  int x;
+  int y;
+  String player;
+  SquareSelectedEvent(this.x, this.y, this.player);
+}
