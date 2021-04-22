@@ -11,4 +11,9 @@ class Square {
 
   int get getPositionX => this.x;
   int get getPositionY => this.y;
+
+  @override
+  String toString() {
+    return 'Square -> x: ${this.x}, y: ${this.y}, state: ${this.state}';
+  }
 }
