@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tic_tac_toe/src/blocs/game/game_bloc.dart';
+import 'package:tic_tac_toe/src/blocs/game/game_events.dart';
+import 'package:tic_tac_toe/src/blocs/game/game_states.dart';
+import 'package:tic_tac_toe/src/models/square.dart';
 
 class GameZone extends StatefulWidget {
   @override
@@ -6,70 +11,30 @@ class GameZone extends StatefulWidget {
 }
 
 class _GameZoneState extends State<GameZone> {
-  final array = [
-    [0, 0],
-    [0, 1],
-    [0, 2],
-    [1, 0],
-    [1, 1],
-    [1, 2],
-    [2, 0],
-    [2, 1],
-    [2, 2]
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final gameBloc = BlocProvider.of<GameBloc>(context);
     final Size size = MediaQuery.of(context).size;
-    return GridView.count(
-      physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      shrinkWrap: true,
-      children: [
-        _squareItem(
-          size,
-          position: [0, 0],
-        ),
-        _squareItem(
-          size,
-          position: [0, 1],
-        ),
-        _squareItem(
-          size,
-          position: [0, 2],
-        ),
-        _squareItem(
-          size,
-          position: [1, 0],
-        ),
-        _squareItem(
-          size,
-          position: [1, 1],
-        ),
-        _squareItem(
-          size,
-          position: [1, 2],
-        ),
-        _squareItem(
-          size,
-          position: [2, 0],
-        ),
-        _squareItem(
-          size,
-          position: [2, 1],
-        ),
-        _squareItem(size, position: [2, 2]),
-      ],
+    return BlocBuilder<GameBloc, GameState>(
+      bloc: gameBloc,
+      builder: (context, state) {
+        return GridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            children:
+                state.game.map((e) => _squareItem(gameBloc, size, e)).toList());
+      },
     );
   }
 
-  Widget _squareItem(Size size, {List<int> position}) {
+  Widget _squareItem(GameBloc bloc, Size size, Square square) {
     final squareSize = (size.width - 30.0) / 3;
     return Padding(
       padding: EdgeInsets.all(5.0),
       child: GestureDetector(
         onTap: () {
-          print('tocando ${array[3]}');
+          bloc.add(SquareSelectedEvent(square.x, square.y, 'ola'));
         },
         child: Container(
           height: squareSize,
