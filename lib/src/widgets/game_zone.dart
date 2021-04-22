@@ -4,6 +4,7 @@ import 'package:tic_tac_toe/src/blocs/game/game_bloc.dart';
 import 'package:tic_tac_toe/src/blocs/game/game_events.dart';
 import 'package:tic_tac_toe/src/blocs/game/game_states.dart';
 import 'package:tic_tac_toe/src/models/square.dart';
+import 'package:tic_tac_toe/src/utils/state_toggle.dart';
 
 class GameZone extends StatefulWidget {
   @override
@@ -15,8 +16,11 @@ class _GameZoneState extends State<GameZone> {
   Widget build(BuildContext context) {
     final gameBloc = BlocProvider.of<GameBloc>(context);
     final Size size = MediaQuery.of(context).size;
-    return BlocBuilder<GameBloc, GameState>(
+    return BlocConsumer<GameBloc, GameState>(
       bloc: gameBloc,
+      listener: (context, state) {
+        if (state is GamePlayed) gameBloc.add(GameWaitEvent(state.played));
+      },
       builder: (context, state) {
         return GridView.count(
             physics: NeverScrollableScrollPhysics(),
@@ -34,21 +38,31 @@ class _GameZoneState extends State<GameZone> {
       padding: EdgeInsets.all(5.0),
       child: GestureDetector(
         onTap: () {
-          bloc.add(SquareSelectedEvent(square.x, square.y, 'ola'));
+          bloc.add(SquareSelectedEvent(
+              square.x, square.y, stateToggle(square.state)));
         },
         child: Container(
-          height: squareSize,
-          width: squareSize,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(width: 2.0),
-          ),
-          child: CustomPaint(
-            painter: _CirclePainter(),
-          ),
-        ),
+            height: squareSize,
+            width: squareSize,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(width: 2.0),
+            ),
+            child: _toggleXorCircle(square.state)),
       ),
     );
+  }
+
+  Widget _toggleXorCircle(String state) {
+    if (state == 'circle')
+      return CustomPaint(
+        painter: _CirclePainter(),
+      );
+    if (state == 'ex')
+      return CustomPaint(
+        painter: _XPainter(),
+      );
+    return Container();
   }
 }
 

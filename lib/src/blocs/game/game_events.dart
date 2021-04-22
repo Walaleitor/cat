@@ -13,3 +13,8 @@ class SquareSelectedEvent extends GameEvent {
   String player;
   SquareSelectedEvent(this.x, this.y, this.player);
 }
+
+class GameWaitEvent extends GameEvent {
+  String player;
+  GameWaitEvent(this.player);
+}

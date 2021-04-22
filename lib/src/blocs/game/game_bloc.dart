@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tic_tac_toe/src/models/square.dart';
+import 'package:tic_tac_toe/src/utils/state_toggle.dart';
 
 import 'game_events.dart';
 import 'game_states.dart';
@@ -14,11 +15,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       final game = currentState.game;
       final newgame = game
           .map((Square square) => (square.x == event.x && square.y == event.y)
-              ? new Square(event.x, event.y, 'ola')
+              ? new Square(event.x, event.y, stateToggle(square.state))
               : square)
           .toList();
-      print(newgame);
-      yield GamePlayed(newgame);
+      yield GamePlayed(newgame, event.player);
+    }
+    if (event is GameWaitEvent) {
+      yield GameWaiting(state.game, event.player);
     }
   }
 }

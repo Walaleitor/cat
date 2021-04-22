@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:tic_tac_toe/src/models/square.dart';
 
 class GameState extends Equatable {
-  List<Square> game = [];
+  List<Square> game;
+  String played;
   GameState();
 
   get getGame => game;
@@ -14,7 +15,7 @@ class GameState extends Equatable {
 }
 
 class GameInitial extends GameState {
-  List<Square> game = [
+  final List<Square> game = [
     new Square(0, 0, 'empty'),
     new Square(0, 1, 'empty'),
     new Square(0, 2, 'empty'),
@@ -28,6 +29,19 @@ class GameInitial extends GameState {
 }
 
 class GamePlayed extends GameState {
-  List<Square> game = [];
-  GamePlayed(this.game);
+  final List<Square> game;
+  final String played;
+  GamePlayed(this.game, this.played);
+
+  @override
+  List<Object> get props => [this.played];
+}
+
+class GameWaiting extends GameState {
+  final List<Square> game;
+  final String played;
+  GameWaiting(this.game, this.played);
+
+  @override
+  List<Object> get props => [this.played];
 }
